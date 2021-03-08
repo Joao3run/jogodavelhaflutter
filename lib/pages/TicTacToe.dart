@@ -142,7 +142,7 @@ class _TicTacToeState extends State<TicTacToe> {
 
   resetGame() {
     Timer(
-      Duration(seconds: 5),
+      Duration(seconds: 1),
       () {
         setState(
           () {
