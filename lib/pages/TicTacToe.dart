@@ -18,6 +18,8 @@ class _TicTacToeState extends State<TicTacToe> {
   List<int> gameState;
   bool isCross = true;
   bool gameEnd = false;
+  bool _typeGame = false;
+  List<int> finishedGame = [-1, -1, -1];
 
   @override
   void initState() {
@@ -62,18 +64,23 @@ class _TicTacToeState extends State<TicTacToe> {
     }
   }
 
-  Color getColor(int value) {
-    switch (value) {
-      case (1):
-        return Colors.red;
-        break;
-      case (2):
-        return Colors.white;
-        break;
-      case (0):
-        return Colors.orange;
-        break;
+  Color getColor(int value, int index) {
+    if (value == 1) {
+      return _finGameColor(index) != -1 ? _finGameColor(index) : Colors.red;
+    } else if (value == 2) {
+      return Colors.white;
+    } else if (value == 0) {
+      return _finGameColor(index) != -1 ? _finGameColor(index) : Colors.orange;
     }
+  }
+
+  _finGameColor(int index) {
+    if (finishedGame[0] == index ||
+        finishedGame[1] == index ||
+        finishedGame[2] == index) {
+      return Colors.blue;
+    }
+    return -1;
   }
 
   newGame() {
@@ -114,11 +121,15 @@ class _TicTacToeState extends State<TicTacToe> {
           gameState[index] = 1;
         }
         isCross = !isCross;
-        dynamic winnerSeqIndex =
-            checkWinningSequences(gameState[index], isCross);
+        dynamic winnerSeqIndex = checkWinningSequences(
+          gameState[index],
+        );
         if (winnerSeqIndex != -1) {
-          showWiner(winnerSeqIndex);
-          markPoints(winnerSeqIndex);
+          showWiner(gameState[index]);
+          setState(() {
+            finishedGame = winnerSeqIndex;
+          });
+          markPoints(gameState[index]);
         } else if (!gameState.contains(2)) {
           showWiner(2);
           markPoints(2);
@@ -127,13 +138,15 @@ class _TicTacToeState extends State<TicTacToe> {
     }
   }
 
-  dynamic checkWinningSequences(int symbol, bool isCross) {
+  dynamic checkWinningSequences(
+    int symbol,
+  ) {
     for (var sequence in winningSequences) {
       for (var sequenceIndex in sequence) {
         if (gameState[sequence[0]] == symbol &&
             gameState[sequence[1]] == symbol &&
             gameState[sequence[2]] == symbol) {
-          return symbol;
+          return sequence;
         }
       }
     }
@@ -142,7 +155,7 @@ class _TicTacToeState extends State<TicTacToe> {
 
   resetGame() {
     Timer(
-      Duration(seconds: 1),
+      Duration(seconds: 3),
       () {
         setState(
           () {
@@ -158,8 +171,10 @@ class _TicTacToeState extends State<TicTacToe> {
               2,
             ];
             gameEnd = false;
+            finishedGame = [-1, -1, -1];
           },
         );
+        Navigator.pop(context);
       },
     );
   }
@@ -168,9 +183,11 @@ class _TicTacToeState extends State<TicTacToe> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
+        backgroundColor: Colors.blue,
         title: Center(
           child: Text(
             '${winner == 2 ? 'Empate!' : winner == 0 ? 'O jogador O ganhou!' : 'O Jogador X ganhou!'}',
+            style: TextStyle(color: Colors.white),
           ),
         ),
       ),
@@ -222,28 +239,18 @@ class _TicTacToeState extends State<TicTacToe> {
                   mainAxisSpacing: 5.0,
                 ),
                 itemCount: gameState.length,
-                itemBuilder: (context, i) => SizedBox(
-                  width: 100.0,
-                  height: 100.0,
-                  child: FlatButton(
-                    color: getColor(gameState[i]),
-                    onPressed: () => playGame(i),
-                    child: Text(
-                      getValue(gameState[i]),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 40.0,
+                itemBuilder: (context, i) => GestureDetector(
+                  onTap: () => playGame(i),
+                  child: Container(
+                    color: getColor(gameState[i], i),
+                    child: Center(
+                      child: Text(
+                        getValue(gameState[i]),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 40.0,
+                        ),
                       ),
-                    ),
-                    shape: Border.all(
-                      color: Color.fromRGBO(
-                        0,
-                        0,
-                        0,
-                        0.2,
-                      ),
-                      width: 2,
-                      style: BorderStyle.solid,
                     ),
                   ),
                 ),
