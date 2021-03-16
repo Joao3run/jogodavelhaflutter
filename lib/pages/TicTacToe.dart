@@ -18,7 +18,6 @@ class _TicTacToeState extends State<TicTacToe> {
   List<int> gameState;
   bool isCross = true;
   bool gameEnd = false;
-  bool _typeGame = false;
   List<int> finishedGame = [-1, -1, -1];
 
   @override
