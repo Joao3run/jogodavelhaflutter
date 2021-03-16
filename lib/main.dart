@@ -8,6 +8,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Jogo da Velha',
       theme: ThemeData(
+        brightness: Brightness.dark,
         primarySwatch: Colors.green,
       ),
       home: TicTacToe(),
