@@ -9,6 +9,7 @@
 <img src="https://github.com/Joao3run/jogodavelhaflutter/blob/master/assets/img/board.png" alt="Imagem tela jogo da velha" width="300" height="700" hspace="20"> <img src="https://github.com/Joao3run/jogodavelhaflutter/blob/master/assets/img/winner_line.png"  alt="Imagem tela jogo da velha" width="300" height="700">
 
 # Como executar o projeto
+Pré-requisitos: SDK FLutter
 
 ```bash
 # clonar repositório
