@@ -13,6 +13,8 @@
 ```bash
 # clonar repositório
 git clone https://github.com/Joao3run/jogodavelhaflutter
+# instalar dependências
+flutter pub get
 # executar o projeto
 flutter run
 ```
