@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:jogodavelhaflutter/components/action_icon.dart';
 import 'package:jogodavelhaflutter/components/app_bar.dart';
@@ -19,10 +20,12 @@ class _TicTacToeState extends State<TicTacToe> {
   bool isCross = true;
   bool gameEnd = false;
   List<int> finishedGame = [-1, -1, -1];
+  final play = AudioCache();
 
   @override
   void initState() {
     super.initState();
+    play.loop('x_drum_loop.mp3');
     setState(() {
       gameState = [
         2,
@@ -180,6 +183,7 @@ class _TicTacToeState extends State<TicTacToe> {
 
   showWiner(int winner) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: Colors.blue,
