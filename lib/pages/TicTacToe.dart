@@ -201,14 +201,17 @@ class _TicTacToeState extends State<TicTacToe> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(
-        title: 'Jogo da Velha',
+      appBar: AppBarWidget(
+        titleAppBar: 'Jogo da Velha',
         actions: [
-          actionIcon(
-              icon: Icons.refresh,
-              onPressed: () {
-                newGame();
-              }),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ActionIcon(
+                icon: Icons.refresh,
+                onPressed: () {
+                  newGame();
+                }),
+          ),
         ],
       ),
       body: Container(
@@ -221,7 +224,7 @@ class _TicTacToeState extends State<TicTacToe> {
               padding: const EdgeInsets.only(
                 top: 40,
               ),
-              child: score(
+              child: Score(
                 crossWin: crossWin,
                 circleWin: circleWin,
                 draw: draw,
@@ -259,7 +262,7 @@ class _TicTacToeState extends State<TicTacToe> {
                 ),
               ),
             ),
-            bottomLabel(isCross),
+            BottomLabel(isCross),
           ],
         ),
       ),
